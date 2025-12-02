@@ -1,0 +1,643 @@
+/* --- 1. CONFIGURAÇÃO GLOBAL E FONTES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9; /* Fundo cinza bem claro */
+    color: #333;
+}
+
+/* --- 2. ESTILOS DO HERO (CABEÇALHO COM IMAGEM, OVERLAY E TEXTO NÍTIDO) --- */
+.hero {
+    color: white;
+    
+    background-image: url(trofeu.png); /* Sua imagem exata de fundo */
+    background-color: #1e392a; /* Cor de fundo caso a imagem falhe */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; /* Garante que não repita */
+    
+    min-height: 400px; /* Altura mínima */
+    
+    /* Configuração para o overlay */
+    position: relative;
+    overflow: hidden; /* Garante que nada saia dos limites */
+
+    /* Alinhamento do conteúdo (o .hero-content) */
+    display: flex;
+    align-items: center; /* Centraliza o texto verticalmente */
+    justify-content: flex-start; /* Alinha o texto à esquerda (padrão desktop) */
+    padding-left: 5%; /* Espaçamento da borda esquerda */
+}
+
+/* OVERLAY ESCURO SOBRE A IMAGEM DE FUNDO */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Preto com 40% de opacidade para escurecer */
+    z-index: 0; /* Fica abaixo do conteúdo, mas acima da imagem de fundo */
+}
+
+/* Conteúdo (texto e botões) */
+.hero-content {
+    position: relative; /* Garante que fique acima do overlay */
+    z-index: 1; /* Prioridade para o conteúdo */
+    max-width: 45%; /* Ocupa no máximo 45% da tela, para não passar por cima do troféu */
+    text-align: left; /* Garante que o texto esteja à esquerda */
+}
+
+.hero h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero p {
+    font-size: 0.95rem;
+    color: #e0e0e0;
+    margin-bottom: 25px;
+}
+
+.header-buttons {
+    display: flex;
+    justify-content: flex-start; /* Alinha botões à esquerda */
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.header-buttons .btn {
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #ffffff;
+    color: #1e392a;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.btn-primary:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+/* --- 3. ESTILOS DE CONTEÚDO (MAIN) --- */
+main {
+    padding: 20px;
+}
+
+.content-section {
+    margin-bottom: 35px;
+}
+
+.content-section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* Estilo base do CARD (usado em tudo) */
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+/* --- 4. CARD JOGO EM DESTAQUE --- */
+.featured-match-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.featured-match-card .team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+.featured-match-card .team img {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 8px;
+}
+
+.featured-match-card .team strong {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.featured-match-card .score {
+    text-align: center;
+}
+
+.featured-match-card .score span {
+    display: block;
+}
+
+.featured-match-card .score span:first-child {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.live-badge {
+    font-size: 0.75rem;
+    color: #e74c3c;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* --- 5. CARD DA TABELA (STANDINGS) --- */
+.standings-card {
+    padding: 0; /* Remove padding para a tabela encostar */
+}
+
+/* Table wrapper for responsive scrolling */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    border-radius: 8px;
+    background: #fff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap; /* Impede que o texto quebre linha */
+}
+
+th, td {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+th {
+    background-color: #f7f7f7;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #777;
+    position: sticky;
+    left: 0;
+}
+
+th:first-child {
+    z-index: 10;
+}
+
+tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+tbody tr:hover {
+    background-color: #fafafa;
+}
+
+td:first-child {
+    font-weight: 700;
+    background-color: rgba(255, 255, 255, 0.95);
+    position: sticky;
+    left: 0;
+    z-index: 5;
+}
+
+td.team-name {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+td.team-name img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+/* team color dot (used instead of logos) */
+.team-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 20px;
+    border: black 1px solid;
+    margin-right: 10px;
+}
+
+td.points {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+/* --- 6. CARD PRÓXIMOS JOGOS --- */
+.match-card {
+    margin-bottom: 15px;
+}
+
+.match-card .match-date {
+    display: block;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.match-card .match-teams {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.match-card .team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    width: 150px; /* Largura fixa para cada time */
+    text-align: center;
+}
+
+.match-card .team img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+}
+
+.match-card .team span {
+    white-space: nowrap; /* Evita quebra de linha */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona ... se o texto for muito longo */
+}
+
+.match-card .vs {
+    font-size: 0.9rem;
+    color: #999;
+    font-weight: 600;
+    margin: 0 8px; /* Espaçamento pequeno entre scores */
+}
+
+.match-card .match-teams {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza todo o conteúdo */
+    width: 100%;
+}
+
+/* Inline score between teams */
+.score-inline { display:flex; align-items:center; gap:6px; margin: 0 6px; }
+.score-home, .score-away { font-weight:700; font-size:1rem; min-width:30px; text-align:center; }
+.match-score { font-weight:700; margin-top:8px; }
+
+/* --- 7. GRID DE ESTATÍSTICAS --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colunas */
+    gap: 15px; /* Espaço entre os cards */
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.stat-card .stat-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.stat-card strong {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.stat-card span {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.stat-card .stat-value {
+    font-weight: 600;
+    color: #333;
+}
+
+/* --- 8. RODAPÉ --- */
+footer {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: #1e392a;
+    color: #ccc;
+    font-size: 0.85rem;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-login {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #22c55e;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #16a34a;
+}
+
+/* --- MEDIA QUERIES PARA MOBILE E RESPONSIVIDADE --- */
+
+/* Dispositivos muito pequenos (< 375px) */
+@media (max-width: 374px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .hero {
+        min-height: 280px;
+        padding-left: 0;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 95%;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 0.85rem;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .content-section h2 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+
+    .card {
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    th, td {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+
+    .match-card .team {
+        width: 100px;
+        font-size: 0.8rem;
+    }
+
+    .match-card .team span {
+        font-size: 0.75rem;
+    }
+
+    .btn {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 15px 10px;
+    }
+}
+
+/* Celulares pequenos (375px a 480px) */
+@media (max-width: 480px) {
+    .hero {
+        min-height: 300px;
+        padding-left: 0;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 95%;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .content-section {
+        margin-bottom: 25px;
+    }
+
+    .content-section h2 {
+        font-size: 1.4rem;
+        margin-bottom: 12px;
+    }
+
+    .card {
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+
+    .match-card {
+        margin-bottom: 12px;
+    }
+
+    .match-card .team {
+        width: 120px;
+        font-size: 0.85rem;
+    }
+
+    .match-card .match-date {
+        font-size: 0.75rem;
+        margin-bottom: 12px;
+    }
+
+    .btn {
+        padding: 10px 16px;
+        font-size: 0.95rem;
+        border-radius: 4px;
+        min-height: 44px;
+    }
+
+    .btn-login {
+        padding: 12px 24px;
+        min-height: 44px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 20px 15px;
+    }
+
+    footer {
+        padding: 20px 15px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Celulares médios/grandes (481px a 767px) */
+@media (max-width: 767px) {
+    .hero {
+        min-height: 350px;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 90%;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    main {
+        padding: 18px;
+    }
+
+    .content-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .match-card {
+        margin-bottom: 15px;
+    }
+
+    .match-card .team {
+        width: 140px;
+        font-size: 0.9rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .btn {
+        min-height: 44px;
+        padding: 10px 18px;
+    }
+
+    .admin-header {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .admin-header h1 {
+        font-size: 1.3rem;
+        flex: 1 1 100%;
+    }
+
+    .admin-header .user-info {
+        flex: 1 1 100%;
+        justify-content: flex-end;
+    }
+}
+
+/* Tablets e telas maiores (768px+) */
+@media (min-width: 768px) {
+    .hero {
+        min-height: 500px;
+        justify-content: flex-start;
+        text-align: left;
+        padding-left: 5%;
+    }
+
+    .hero-content {
+        max-width: 40%;
+        text-align: left;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    main {
+        padding: 30px 40px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .match-card .team {
+        width: 180px;
+    }
+
+    .admin-header {
+        flex-wrap: nowrap;
+    }
+
+    .admin-header h1 {
+        flex: 1;
+    }
+}

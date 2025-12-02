@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1e392a">
+    <title>Admin - COPA JORGE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="match-editor.css">
+    
+    <style>
+        .admin-header { background: #1e392a; color: #fff; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .admin-header h1 { margin: 0; font-size: 1.5rem; }
+        .admin-header .user-info { display: flex; gap: 15px; align-items: center; }
+        .admin-header .user-email { font-size: 0.9rem; color: #e0e0e0; }
+        .admin-header .logout-btn { background: #e74c3c; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .admin-header .logout-btn:hover { background: #c0392b; }
+        .matches-grid { padding: 20px; }
+        .match-card-admin { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <h1>🏆 Admin - COPA JORGE</h1>
+        <div class="user-info">
+            <span class="user-email" id="user-email"></span>
+            <button class="logout-btn" onclick="handleLogout()">Sair</button>
+        </div>
+    </div>
+
+    <main>
+        <section class="matches-grid" id="admin-matches">
+            <h2>Editar Jogos</h2>
+            <div id="jogos"></div>
+        </section>
+    </main>
+
+    <!-- Match editor modal (same as main site) -->
+    <div id="match-editor-modal" class="modal hidden" role="dialog" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3 id="modal-title">Editar Jogo</h3>
+                <button id="modal-close" class="btn">✕</button>
+            </header>
+
+            <form id="match-editor-form">
+                <div class="form-row scores-row">
+                    <label class="team-score">
+                        <span id="home-name">Time A</span>
+                        <input type="number" id="home-score" min="0" value="0">
+                    </label>
+                    <span class="score-sep">-</span>
+                    <label class="team-score">
+                        <span id="away-name">Time B</span>
+                        <input type="number" id="away-score" min="0" value="0">
+                    </label>
+                </div>
+
+                <section class="events-section">
+                    <h4>Gols</h4>
+                    <div id="goals-list" class="events-list"></div>
+                    <div class="events-actions">
+                        <button type="button" id="add-goal" class="btn">Adicionar Gol</button>
+                    </div>
+
+                    <h4>Cartões</h4>
+                    <div id="cards-list" class="events-list"></div>
+                    <div class="events-actions">
+                        <button type="button" id="add-card" class="btn">Adicionar Cartão</button>
+                    </div>
+
+                    <h4>Pênaltis (Fase de Grupos)</h4>
+                    <div class="penalty-section">
+                        <label>
+                            <input type="checkbox" id="went-to-penalties">
+                            Partida foi para pênaltis?
+                        </label>
+                        <div id="penalty-result" style="display: none; margin-top: 10px;">
+                            <label>
+                                Vencedor dos pênaltis:
+                                <select id="penalty-winner">
+                                    <option value="">Selecione</option>
+                                    <option value="home">Time da Casa</option>
+                                    <option value="away">Time Visitante</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="modal-footer">
+                    <button type="button" id="save-match" class="btn btn-primary">Salvar</button>
+                    <button type="button" id="cancel-match" class="btn">Cancelar</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="auth.js"></script>
+    <script src="admin-script.js"></script>
+</body>
+</html>
