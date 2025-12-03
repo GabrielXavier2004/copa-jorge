@@ -13,8 +13,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="match-editor.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/match-editor.css">
 
     
     
@@ -23,11 +23,14 @@
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <!-- firebase-config.js will be generated at build time and should set window.FIREBASE_CONFIG -->
+    <script src="/firebase-config.js"></script>
     <script>
         // teste rápido pra ver se carregou
         console.log("Firebase carregado?", typeof firebase !== "undefined");
+        console.log('FIREBASE_CONFIG present?', typeof window.FIREBASE_CONFIG !== 'undefined');
     </script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <header class="hero">
         <div class="hero-content">
             <h1>COPA JORGE 2025</h1>
@@ -118,6 +121,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/script/script.js"></script>
 </body>
 </html>

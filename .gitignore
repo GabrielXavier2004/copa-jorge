@@ -1,0 +1,11 @@
+.env
+firebase-config.js
+serviceAccount.json
+node_modules/
+/.cache
+/.parcel-cache
+dist/
+_site/
+.DS_Store
+/.firebase
+*.log

@@ -1,20 +1,14 @@
-// Configuração do Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyBhMWuCx4MqBUZu35s4ZcGk_EXcqfeS5Yc",
-    authDomain: "fsm-cup.firebaseapp.com",
-    projectId: "fsm-cup",
-    storageBucket: "fsm-cup.firebasestorage.app",
-    messagingSenderId: "800855291916",
-    appId: "1:800855291916:web:43851e7e0ab36702085629"
-};
+// Initialize Firebase from runtime-generated config (firebase-config.js)
+if (typeof window !== 'undefined' && window.FIREBASE_CONFIG) {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(window.FIREBASE_CONFIG);
+  }
+} else {
+  console.warn('FIREBASE_CONFIG not found. Make sure firebase-config.js is generated and loaded before app scripts');
+}
 
 console.log("Firebase carregado?", typeof firebase !== "undefined");
 console.log("Firebase versão detectada:", firebase.SDK_VERSION);
-
-// Inicializa o Firebase somente se não tiver apps
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
 
 const db = firebase.firestore();
 
