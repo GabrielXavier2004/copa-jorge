@@ -15,7 +15,7 @@ body {
 .hero {
     color: white;
     
-    background-image: url(../assets/trofeu.png); /* Sua imagem exata de fundo */
+    background-image: url(trofeu.png); /* Sua imagem exata de fundo */
     background-color: #1e392a; /* Cor de fundo caso a imagem falhe */
     background-size: cover;
     background-position: center;
