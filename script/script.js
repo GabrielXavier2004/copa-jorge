@@ -242,6 +242,21 @@ function renderStatCard(icon, color, title, name, value) {
     `;
 }
 
+function renderListCard(icon, color, title, items) {
+  // items: array of strings or objects already formatted
+  const listItems = items.map((it, idx) => {
+    return `<li><strong>${idx + 1}.</strong> ${it}</li>`;
+  }).join('');
+
+  return `
+    <div class="card stat-card">
+      <span class="material-icons-outlined stat-icon" style="color: ${color};">${icon}</span>
+      <strong>${title}</strong>
+      <ul style="list-style:none; padding-left:0; margin-top:10px; text-align:left; line-height:1.4;">${listItems}</ul>
+    </div>
+  `;
+}
+
 async function getTeamsMap() {
     const teamsSnapshot = await db.collection("teams").get();
     const map = {};
@@ -268,51 +283,47 @@ async function loadStats() {
         let teams = [];
         teamsSnap.forEach(doc => teams.push({ id: doc.id, ...doc.data() }));
 
-        // --- Artilheiro ---
-        const topScorer = players.sort((a, b) => (b.stats?.goals || 0) - (a.stats?.goals || 0))[0];
+    // --- Top 5 Artilheiros ---
+    const topScorers = players
+      .slice() // copy
+      .sort((a, b) => (b.stats?.goals || 0) - (a.stats?.goals || 0))
+      .slice(0, 5);
 
-        // --- Assistências ---
-        const topAssists = players.sort((a, b) => (b.stats?.assists || 0) - (a.stats?.assists || 0))[0];
+    // --- Top 5 Assistências ---
+    const topAssists = players
+      .slice()
+      .sort((a, b) => (b.stats?.assists || 0) - (a.stats?.assists || 0))
+      .slice(0, 5);
 
-        // --- Melhor defesa ---
-        const bestDefense = teams.sort((a, b) => (a.stats?.goalsAgainst || 0) - (b.stats?.goalsAgainst || 0))[0];
+    // --- Melhor Defesa ---
+    const bestDefense = teams.slice().sort((a, b) => (a.stats?.goalsAgainst || 0) - (b.stats?.goalsAgainst || 0))[0];
 
-        // --- Fair play ---
-        const bestFairPlay = teams.sort((a, b) =>
-            ((a.stats?.yellowCards || 0) + (a.stats?.redCards || 0)) -
-            ((b.stats?.yellowCards || 0) + (b.stats?.redCards || 0))
-        )[0];
+    // --- Melhor Ataque (mais gols marcados) ---
+    const bestAttack = teams.slice().sort((a, b) => (b.stats?.goalsFor || 0) - (a.stats?.goalsFor || 0))[0];
 
-        // Renderiza
-        statsGrid.innerHTML = "";
+    // Renderiza
+    statsGrid.innerHTML = "";
 
-        statsGrid.innerHTML += renderStatCard(
-            "emoji_events", "#ffb700",
-            "Artilheiro",
-            topScorer.name,
-            `${teamsMap[topScorer.teamId]} - ${topScorer.stats.goals} Gols`
-        );
+    // Convert top lists to readable strings
+    const scorerItems = topScorers.map(p => `${p.name} — ${teamsMap[p.teamId] || '—'}: ${p.stats?.goals || 0} gols`);
+    const assistItems = topAssists.map(p => `${p.name} — ${teamsMap[p.teamId] || '—'}: ${p.stats?.assists || 0} assistências`);
 
-        statsGrid.innerHTML += renderStatCard(
-            "assistant", "#007bff",
-            "Assistências",
-            topAssists.name,
-            `${teamsMap[topAssists.teamId]} - ${topAssists.stats.assists} Assistências`
-        );
+    statsGrid.innerHTML += renderListCard("emoji_events", "#ffb700", "Top 5 Artilheiros", scorerItems);
+    statsGrid.innerHTML += renderListCard("assistant", "#007bff", "Top 5 Garçons", assistItems);
 
-        statsGrid.innerHTML += renderStatCard(
-            "security", "#28a745",
-            "Melhor Defesa",
-            bestDefense.name,
-            `${bestDefense.stats.goalsAgainst} Gols Sofridos`
-        );
+    statsGrid.innerHTML += renderStatCard(
+      "security", "#28a745",
+      "Melhor Defesa",
+      bestDefense.name,
+      `${bestDefense.stats.goalsAgainst} Gols Sofridos`
+    );
 
-        statsGrid.innerHTML += renderStatCard(
-            "style", "#6f42c1",
-            "Fair Play",
-            bestFairPlay.name,
-            `${bestFairPlay.stats.yellowCards} amarelos, ${bestFairPlay.stats.redCards} vermelhos`
-        );
+    statsGrid.innerHTML += renderStatCard(
+      "whatshot", "#ff5733",
+      "Melhor Ataque",
+      bestAttack.name,
+      `${bestAttack.stats.goalsFor} Gols Marcados`
+    );
 
     } catch (err) {
         console.error("🔥 ERRO REAL:", err.message, err);
